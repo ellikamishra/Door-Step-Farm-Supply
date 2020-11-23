@@ -1,25 +1,56 @@
-import logo from './logo.svg';
-import './App.css';
 
-function App() {
+import './App.css';
+import react from 'react';
+import Navbar from 'react-bootstrap/Navbar';
+import Nav from 'react-bootstrap/Nav';
+import Container from 'react-bootstrap/Container';
+import Customer from './Customer';
+import Home from './Home';
+import Farmer from './farmer';
+import {  BrowserRouter as Router,Redirect,Link,Route} from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+
+class App extends react.Component {
+
+
+render(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+<Container className='p-0' fluid={true} >
+  <Router>
+    <Navbar className="border-bottom" bg="light" expand="lg">
+            <Navbar.Brand>Door Step Fram Supply</Navbar.Brand>
+
+            <Navbar.Toggle className="border-0" aria-controls="navbar-toggle" />
+            <Navbar.Collapse id="navbar-toggle">
+              <Nav className="ml-auto">
+                <Link className="nav-link" to="/">Home</Link>
+                <Link className="nav-link" to="/customer">Customer</Link>
+                <Link className="nav-link" to="/farmer">Farmer</Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+          </Router>
+          <div className="App">
+<h1>Welcome!</h1>
+
+
     </div>
+    <Router>
+    <Route path="/" exact render={() => <Home/>}/>
+    <Route path="/customer" exact render={() => <Customer/>}/>
+      <Route path="/farmer" render={() => <Farmer/>}/>
+
+      {/* <Route path="/customer" render={() => <Customer/>}/>
+      <Route path="/farmer" render={() => <Farmer/>}/> */}
+      
+      </Router>
+
+      
+      </Container>
+
+    
   );
+}
 }
 
 export default App;
