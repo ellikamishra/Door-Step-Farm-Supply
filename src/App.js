@@ -7,6 +7,8 @@ import Container from 'react-bootstrap/Container';
 import Customer from './Customer';
 import Home from './Home';
 import Farmer from './farmer';
+import Login from './login';
+import Signup from './signup';
 import {  BrowserRouter as Router,Redirect,Link,Route} from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 
@@ -24,8 +26,8 @@ render(){
             <Navbar.Collapse id="navbar-toggle">
               <Nav className="ml-auto">
                 <Link className="nav-link" to="/">Home</Link>
-                <Link className="nav-link" to="/customer">Customer</Link>
-                <Link className="nav-link" to="/farmer">Farmer</Link>
+                <Link className="nav-link" to="/signup">Signup</Link>
+                <Link className="nav-link" to="/login">Login</Link>
               </Nav>
             </Navbar.Collapse>
           </Navbar>
@@ -37,8 +39,8 @@ render(){
     </div>
     <Router>
     <Route path="/" exact render={() => <Home/>}/>
-    <Route path="/customer" exact render={() => <Customer/>}/>
-      <Route path="/farmer" render={() => <Farmer/>}/>
+    <Route path="/signup" exact render={() => <Signup/>}/>
+      <Route path="/login" render={() => <Login/>}/>
 
       {/* <Route path="/customer" render={() => <Customer/>}/>
       <Route path="/farmer" render={() => <Farmer/>}/> */}
