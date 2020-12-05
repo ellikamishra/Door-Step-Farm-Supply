@@ -20,39 +20,46 @@ function Signup(){
     const [password,setPassword]=useState("");
     const [address,setAddress]=useState("");
     const [contact,setContact]=useState("");
-    const [role,setRole]=useState("");
+    
+    const setValName=(e) => {
+
+      const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if(emailRex.test(document.getElementById('#exampleEmail')))
+      {setContact(contact)}
+      else{
+        document.getElementById('#exampleEmail').innerHTML("Invalid");
+      }
+    
+  }
     const register1=()=>{
+        
+
         Axios.post("http://localhost:3001/api/insert",{
         name:name,
         password:password,
         address:address,
         contact:contact,
-        role:role
+        
 
         }).then((response)=>{
-            console.log(response);
+          if(response.data.message){
+            alert("Error in signup!");
+        }
+        else{
+          
+           
+          alert("Registeration done!Login to shop.")
+          console.log(response);
+      }
+           
+         
+            
         });
+         
 
     };
 
-    // const submitForm = (e) =>{
-    //   e.preventDefault();
-    //   console.log(`name: ${ this.state.name }`)
-    // };
-    //  const handleChange = async (event) => {
-    //   const { target } = event;
-    //   const value = target.type === 'checkbox' ? target.checked : target.value;
-    //   const { name } = target;
-    //   await this.setState({
-    //     [ name ]: value,
-        
-    //   });
-      
-    // }
-
-   
-    // const { register, handleSubmit } = useForm();
-    // const onSubmit = data => console.log(data);
+    
    return(
 
     <Container>
@@ -65,14 +72,18 @@ function Signup(){
                 name="name"
                 id="exampleName"
                 placeholder="Name"
+                required
                 value={ name }
                 // ref={register({ required: true,  maxLength : {
                 //   value: 2,
                 //   message:  <p>error message</p> //
                 //  } })}
-                
+                // onKeyPress={(e)=>
+                // {if(!/^[A-Za-z]+$/.test(e.key))
+                //   { e.preventDefault();}
+                // }}
                 onChange={ (e) => {
-                  {setName(e.target.value)  } 
+                  setName(e.target.value)  
                   
                 }
                 }
@@ -90,8 +101,10 @@ function Signup(){
                 id="examplePassword"
                 placeholder="********"
                 value={ password }
+                required
                 onChange={ (e)=>
-                  setPassword(e.target.value) }
+                  
+                 { setPassword(e.target.value) } }
             />
             </FormGroup>
           </Col>
@@ -104,9 +117,13 @@ function Signup(){
                 name="address"
                 id="exampleAddress"
                 placeholder="Address"
+                required
                 value={ address }
+                
                 onChange={ (e)=>
-                  setAddress(e.target.value)
+                  
+                  {
+                  setAddress(e.target.value)}
                  }
             />
             </FormGroup>
@@ -120,26 +137,28 @@ function Signup(){
                 id="exampleEmail"
                 placeholder="myemail@email.com"
                 value={ contact }
-                onChange={ (e)=>
-                  setContact(e.target.value) }
+                
+              //  onChange={ (e)=>{setContact(e.target.value)}}
+              onChange={(e)=>{setValName()}}
+                //  { if(!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(e.value))
+                //   {
+                //    // document.querySelector('#exampleEmail').innerHTML="Invalid!"
+                //    //alert('Invalid')
+                //   }
+                  //else{
+                    
+                   // document.querySelector('#exampleEmail').innerHTML="valid!"
+                    
+                  //}
+                
+              
+                  
+                
               />
              
             </FormGroup>
           </Col>
-          <Col>
-            <FormGroup>
-            <Label for="exampleRole">Pick your Role:</Label>
           
-          <select value={ role }  onChange={ (e)=>
-                  setRole(e.target.value)}>    
-            <option value="">Role</option>         
-            <option value="customer">Customer</option>
-            <option value="farmer">Farmer</option>
-           
-          </select>
-        
-        </FormGroup>
-        </Col>
           <Button onClick={register1}>SUBMIT</Button>
           </Form>
 
