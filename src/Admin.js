@@ -7,11 +7,10 @@ import {
     Button, FormText, FormFeedback,
   } from 'reactstrap';
   import './App.css';
-  import Table from 'react-bootstrap/Table';
-import { Router, useHistory,Route,Link, useLocation,Redirect} from "react-router-dom";
-//import Cart from "./cart";
+import { Redirect } from "react-router-dom";
 
-function Login(){
+
+  function Admin(){
 
     const [name,setName] = useState("");
     const [password,setPassword]=useState("");
@@ -19,23 +18,24 @@ function Login(){
     // const history=useHistory();
     // const loc=useLocation();
     const [loginstatus,setStatus]=useState(0);
-    const login=()=>{
-        Axios.post("http://localhost:3001/api/login",{
-        name:name,
+    const admin=()=>{
+        Axios.post("http://localhost:3001/api/admin",{
+        uname:name,
         pswd:password,
         role:role
 
         }).then((response)=>{
             if(response.data.message){
-                setStatus(response.data.message)
+               
             }
             else{
               
-                setStatus(1);
-                 let id=parseInt(response.data[0].id)
-                alert("Successful login as "+response.data[0].name+",User Id-"+id);
-                console.log(response.data);
+               setStatus(1);
+                // let id=parseInt(response.data[0].id)
+                alert("Successful login");
                 
+                console.log(response.data);
+                <Redirect to='/orders'/>;
              
                 
             }
@@ -48,19 +48,23 @@ function Login(){
     //   if(loginstatus)
     //  { return <Cart/>}
     // })
-   if(loginstatus)
+    if(loginstatus)
    {
     
-    return <Redirect to='/cart'/>;
+    return <Redirect to='/order'/>;
    
   }
    return(
 
     <Container>
 <Form className="form">
+   <h4>Login for Admin.</h4> 
+    <br/>
+    <br/>
+    <br/>
         <Col>
             <FormGroup>
-              <Label for="exampleName">Name</Label>
+              <Label for="exampleName">Username</Label>
               <Input
                 type="text"
                 name="name"
@@ -88,8 +92,8 @@ function Login(){
             />
             </FormGroup>
           </Col>
-          
-          <Button onClick={login}>LOGIN</Button>
+          <br/>
+          <Button onClick={admin}>LOGIN</Button>
           </Form>
 
        {/* <Link to="/cart">
@@ -107,4 +111,4 @@ function Login(){
 
 }
 
-export default Login;
+export default Admin;

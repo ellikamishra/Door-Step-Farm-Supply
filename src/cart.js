@@ -3,27 +3,46 @@
 
 import React, { useState } from "react";
 import Button from 'react-bootstrap/Button';
+import { Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+
 import Axios from "axios";
 import "./Cart.css";
 
 const _defaultCosts = [
-  {
+  { id:"1",
     name: "Rice",
     price: 50,
     Quantity: 0,
     Farmer:"Ram"
   },
   {
+    id:"2",
     name:"Ragi",
     price: 20,
     Quantity: 0,
     Farmer:"Vinay"
   },
   {
+    id:"3",
     name: "Dal",
     price: 30,
     Quantity: 0,
     Farmer:"Abdul",
+  },
+  {
+    id:"4",
+    name:"Corn",
+    price:60,
+    Quantity:0,
+    Farmer:"Sam"
+  }
+  ,
+  {
+    id:"5",
+    name:"Oats",
+    price:50,
+    Quantity:0,
+    Farmer:"Sham"
   }
 ];
 
@@ -32,6 +51,8 @@ const Cart = () => {
   const [costs, setCosts] = useState(_defaultCosts);
   const [cust_name,setName]=useState("");
   const [cust_id,setId]=useState("");
+  const[farm_id,setFarm]=useState([]);
+  const[crop_id,setCrop]=useState([]);
   const [items_list,setItem]=useState(()=>{
    return _defaultCosts}
   );
@@ -42,18 +63,44 @@ const Cart = () => {
     _tempCosts[event.target.dataset.id][event.target.name] = event.target.value;
 
     setCosts(_tempCosts);
-
    // setItem(no_of_items=>no_of_items+Number(costs.reduce((t,items)=> t+items.Quantity,0)));
    // setCosts()
    setItem(_tempCosts)
-    console.log(items_list[0])
+    console.log((items_list.filter(function(item){
+    
+      return item.Quantity>0
+    
+    }
+    ).map((value)=>{
+      return value.id
+    })
+    ))
+    farm_id.push((((items_list.filter(function(item){
+    
+      return item.Quantity > 0
+    
+    }
+    ).map((value)=>{
+      return value.id
+    })
+    ))))
+   console.log(farm_id);
   };
+  const setValues=(event)=>{
+    setFarm(event.target.value);
+    setCrop(event.target.value);
+    console.log(farm_id);
+    }
   const order=()=>{
+    parseInt(farm_id.reverse());
     Axios.post("http://localhost:3001/api/cart",{
+          
           no_of_items:items_list.reduce((t,items)=> t+Number((items.Quantity)),0),
           cost_due:items_list.reduce((t,items)=> t+(items.Quantity*items.price),0),
           cust_name:cust_name,
-          cust_id:cust_id
+          cust_id:cust_id,
+          farm_id:farm_id,
+          crop_id:farm_id
        
           }).then((response)=>{
            if(response.data.message){
@@ -66,7 +113,7 @@ const Cart = () => {
   
   }
  
-
+  
   const getTotalCosts = () => {
     return costs.reduce((total, item) => {
       
@@ -88,10 +135,13 @@ const Cart = () => {
  // setItem(costs.reduce((t,items)=> t+items.Quantity,0))
   return (
     <div className="table">
-      <div className="table-title">Food costs</div>
+      <div className="table-title">Food costs,Select 1st crop for an order,get in direct contact for that.</div>
       <div className="table-content">
         <div className="table-header">
           <div className="table-row">
+          <div className="table-data">
+              <div>ID</div>
+            </div>
             <div className="table-data">
               <div>Item</div>
             </div>
@@ -109,6 +159,16 @@ const Cart = () => {
         <div className="table-body">
           { costs.map( (item, index) => (
             <div className="table-row" key={index}>
+              <div className="table-data">
+                <span
+                  name="name"
+                  data-id={index}
+                  type="text"
+                  value={item.id}>
+                    {item.id}
+              </span>
+              </div>
+
               <div className="table-data">
                 <span
                   name="name"
@@ -164,6 +224,7 @@ const Cart = () => {
 
            <br/>
            <br/>  
+
           </div>
         <div className="table-row" style={{marginleft:"10%"}}>
             <div className="table-data">
@@ -174,6 +235,10 @@ const Cart = () => {
             </div>
           </div>
         </div>
+        <br/>
+
+      
+        <br/>
         <br/>
         Name-<input className="table-data"
          name="cust-name"
@@ -188,6 +253,8 @@ const Cart = () => {
 
            <br/>
            <br/>
+
+           
          ID-<input className="table-data"
          name="cust-id"
          type="text"
@@ -198,6 +265,7 @@ const Cart = () => {
          >
          
          </input>
+        
       </div>
       <br/>
       <br/>

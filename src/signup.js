@@ -6,11 +6,24 @@ import {
     FormGroup, Label, Input,
     Button, FormText, FormFeedback,
   } from 'reactstrap';
+  import Validate from './ValidateInfo';
   import './App.css';
 import {useForm } from 'react-hook-form';
 
 
-
+function allLetter(inputtxt)
+  {
+   var letters = /^[A-Za-z]+$/;
+   if(inputtxt.value.match(letters))
+     {
+      return true;
+     }
+   else
+     {
+     alert("message");
+     return false;
+     }
+  }
 
 
 
@@ -21,16 +34,9 @@ function Signup(){
     const [address,setAddress]=useState("");
     const [contact,setContact]=useState("");
     
-    const setValName=(e) => {
+   
 
-      const emailRex = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-      if(emailRex.test(document.getElementById('#exampleEmail')))
-      {setContact(contact)}
-      else{
-        document.getElementById('#exampleEmail').innerHTML("Invalid");
-      }
-    
-  }
+
     const register1=()=>{
         
 
@@ -59,7 +65,14 @@ function Signup(){
 
     };
 
-    
+    const values={
+      name:name,
+      password:password,
+      address:address,
+      contact:contact
+   
+     }
+     const errors = Validate(values);
    return(
 
     <Container>
@@ -82,13 +95,21 @@ function Signup(){
                 // {if(!/^[A-Za-z]+$/.test(e.key))
                 //   { e.preventDefault();}
                 // }}
-                onChange={ (e) => {
+                onChange={ 
+                  (e) => { 
+                 
                   setName(e.target.value)  
                   
-                }
-                }
                 
-            />
+
+                }
+                }
+                />
+                {errors && (
+                  <small id='nameErr' className='form-text text-danger'>
+                    {errors.name}
+                  </small>)}
+
            
             </FormGroup>
           </Col>
@@ -99,13 +120,18 @@ function Signup(){
                 type="password"
                 name="password"
                 id="examplePassword"
-                placeholder="********"
+                placeholder="(4-12) characters long"
                 value={ password }
                 required
                 onChange={ (e)=>
                   
                  { setPassword(e.target.value) } }
             />
+             {errors && (
+                    <small id='passwordErr' className='form-text text-danger'>
+                      {errors.password}
+                    </small>
+                  )}
             </FormGroup>
           </Col>
           
@@ -126,6 +152,11 @@ function Signup(){
                   setAddress(e.target.value)}
                  }
             />
+                         {errors && (
+                    <small id='addressErr' className='form-text text-danger'>
+                      {errors.address}
+                    </small>
+                  )}
             </FormGroup>
           </Col>
           <Col>
@@ -138,8 +169,8 @@ function Signup(){
                 placeholder="myemail@email.com"
                 value={ contact }
                 
-              //  onChange={ (e)=>{setContact(e.target.value)}}
-              onChange={(e)=>{setValName()}}
+               onChange={ (e)=>{setContact(e.target.value)}}
+              //onChange={(e)=>{setValName()}}
                 //  { if(!/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(e.value))
                 //   {
                 //    // document.querySelector('#exampleEmail').innerHTML="Invalid!"
@@ -155,7 +186,11 @@ function Signup(){
                   
                 
               />
-             
+             {errors && (
+                    <small id='nameErr' className='form-text text-danger'>
+                      {errors.email}
+                    </small>
+                  )}
             </FormGroup>
           </Col>
           
