@@ -58,6 +58,37 @@ app.post('/api/insert',(req,res)=>
       
 
 });
+app.post('/api/insertfarm',(req,res)=>
+{
+    const name=req.body.name;
+    const area=req.body.area;
+    
+    db.getConnection(function(error, connection) {
+        // execute query
+        // ...
+    if(error)
+    {
+        console.log(error);
+    
+    }
+    else{    
+    connection.query('INSERT INTO farmer(name,area) VALUES (?,?)',[name,area],(err,result)=>{
+        if(err){
+            return  res.send({err:err});
+            console.log(err);
+            }
+            if(result){
+            console.log(result);
+            res.send(result);
+            
+           }
+
+    });
+    }
+      });
+      
+
+});
 app.post('/api/login',(req,res)=>
 {
     const name=req.body.name;
@@ -105,6 +136,11 @@ app.post('/api/cart',(req,res)=>
     const farm_id=req.body.farm_id;
     const crop_id=req.body.crop_id;
     console.log(farm_id[0]);
+    if(cust_id==0)
+    {
+       return res.send("Invalid!");
+    }
+    else{
     db.getConnection(function(error, connection) {
         // execute query
         // ...
@@ -127,6 +163,7 @@ app.post('/api/cart',(req,res)=>
         else{
          res.send({message:"Invalid credentials!"});  
         }
+    
     });
   //  for(int i=0;i<farm_id[0].length)
     //farm_id[0].forEach(connection.query('INSERT INTO farm_ord(fid) VALUES(?)',[],(err,result)=>))
@@ -153,7 +190,7 @@ app.post('/api/cart',(req,res)=>
     }
       });
       //res.send('hello');
-
+    }
 });
 app.post('/api/admin',(req,res)=>
 {
@@ -192,6 +229,8 @@ app.post('/api/admin',(req,res)=>
       //res.send('hello');
 
 });
+
+
 app.listen(PORT,(req,res)=>{                          //app listening to port (localhost),using postman app to get and post requests
     console.log(`listening to port ${PORT}`);
 })
