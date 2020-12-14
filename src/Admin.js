@@ -35,7 +35,7 @@ import { Redirect } from "react-router-dom";
                 alert("Successful login");
                 
                 console.log(response.data);
-                <Redirect to='/orders'/>;
+                <Redirect to='/report'/>;
              
                 
             }
@@ -51,7 +51,7 @@ import { Redirect } from "react-router-dom";
     if(loginstatus)
    {
     
-    return <Redirect to='/order'/>;
+    return <Redirect to='/report'/>;
    
   }
    return(

@@ -4,11 +4,11 @@ import react from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Container from 'react-bootstrap/Container';
-import Customer from './Customer';
+import AddFarm from './InsertFarm';
 import Home from './Home';
-import Farmer from './farmer';
+import Report from './Report';
 import Order from './order';
-import Cart from './cart';
+import Cart from './Cart/CardTotal';
 import Login from './login';
 import Signup from './signup';
 import Contact from './Contact';
@@ -24,7 +24,7 @@ render(){
   return (
 <Container className='p-0' fluid={true} >
   <Router>
-    <Navbar className="border-bottom" bg="light" expand="lg">
+    <Navbar className="border-bottom" bg="dark" variant="dark" expand="lg">
             <Navbar.Brand>Door Step Fram Supply</Navbar.Brand>
 
             <Navbar.Toggle className="border-0" aria-controls="navbar-toggle" />
@@ -56,6 +56,8 @@ render(){
   <Route path='/contact' exact render={()=><Contact/> }></ Route>
   <Route path='/admin' exact render={()=><Admin/> }></ Route>
   <Route path='/order' exact render={()=><Order/> }></ Route>
+  <Route path='/report' exact render={()=><Report/>}></Route>
+  <Route path='/addfarm' exact render={()=><AddFarm/>}></Route>
       {/* <Route path="/customer" render={() => <Customer/>}/>
       <Route path="/farmer" render={() => <Farmer/>}/> */}
       

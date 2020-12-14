@@ -192,6 +192,11 @@ function Signup(){
                     </small>
                   )}
             </FormGroup>
+            <Col>
+            
+            
+            
+            </Col>
           </Col>
           
           <Button onClick={register1}>SUBMIT</Button>

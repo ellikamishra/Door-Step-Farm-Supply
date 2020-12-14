@@ -34,7 +34,7 @@ function Login(){
                 setStatus(1);
                  let id=parseInt(response.data[0].id)
                 alert("Successful login as "+response.data[0].name+",User Id-"+id);
-                console.log(response.data);
+                console.log(response);
                 
              
                 
